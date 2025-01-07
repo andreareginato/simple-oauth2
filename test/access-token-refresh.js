@@ -290,8 +290,10 @@ test.serial('@refresh => creates a new access token with keeping the old refresh
   const scope = server.tokenSuccessWithoutRefreshToken(scopeOptions, refreshParams);
 
   const accessToken = new AccessToken(config, client, accessTokenResponse);
+  const refreshToken = accessToken.token.refresh_token;
   const refreshAccessToken = await accessToken.refresh();
 
   scope.done();
   t.true(has(refreshAccessToken.token, 'refresh_token'));
+  t.is(refreshAccessToken.token.refresh_token, refreshToken);
 });
